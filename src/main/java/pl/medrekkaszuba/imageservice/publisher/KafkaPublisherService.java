@@ -2,6 +2,7 @@ package pl.medrekkaszuba.imageservice.publisher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import pl.medrekkaszuba.imageservice.model.Image;
@@ -17,7 +18,9 @@ public class KafkaPublisherService {
 
     private final ObjectMapper objectMapper;
 
-    public KafkaPublisherService(KafkaTemplate<String, String> kafkaTemplate, String processedImagesTopic, ObjectMapper objectMapper) {
+    public KafkaPublisherService(KafkaTemplate<String, String> kafkaTemplate,
+                                 @Value("${kafka.processedImagesTopic.name}") String processedImagesTopic,
+                                 ObjectMapper objectMapper) {
         this.kafkaTemplate = kafkaTemplate;
         this.processedImagesTopic = processedImagesTopic;
         this.objectMapper = objectMapper;
