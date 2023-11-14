@@ -15,3 +15,5 @@ kafka:
         name: processedImagesTopic
         partitions: 2
         replicationFactor: 1
+
+
