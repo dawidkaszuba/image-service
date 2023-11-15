@@ -100,12 +100,12 @@
 				</executions>
 				<configuration>
 					<imageName>${docker.image.repository}/${project.artifactId}:${docker.image.tag}</imageName>
-					<dockerDirectory>${project.basedir}</dockerDirectory>
+					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
+							<include>*.jar</include>
 						</resource>
 					</resources>
 				</configuration>
