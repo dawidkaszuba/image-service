@@ -16,4 +16,9 @@ kafka:
         partitions: 2
         replicationFactor: 1
 
-
+s3:
+    region: eu-central-1
+    bucket: news-image-service
+    bucketPrefix: https://news-image-service.s3.eu-central-1.amazonaws.com/
+    accessKey:
+    accessSecret:
