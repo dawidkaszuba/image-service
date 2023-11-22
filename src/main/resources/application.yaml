@@ -1,0 +1,23 @@
+server:
+    port: ${SERVER_PORT}
+
+spring:
+    kafka:
+        bootstrap-servers: ${BOOTSTRAP_SERVERS}
+        consumer.groupId: ${KAFKA_CONSUMER_GROUP}
+
+kafka:
+    imagesToProcessTopic:
+        name: ${IMAGES_TO_PROCESS_TOPIC_NAME}
+        partitions: ${IMAGES_TO_PROCESS_TOPIC_PARTITIONS}
+        replicationFactor: ${IMAGES_TO_PROCESS_TOPIC_REPLICATION_FACTOR}
+    processedImagesTopic:
+        name: ${PROCESSED_IMAGES_TOPIC_NAME}
+        partitions: 2
+        replicationFactor: 1
+s3:
+    region: ${S3_REGION}
+    bucket: ${S3_BUCKET}
+    bucketPrefix: ${S3_BUCKET_PREFIX}
+    accessKey: ${S3_ACCESS_KEY}
+    accessSecret: ${S3_ACCESS_SECRET}
