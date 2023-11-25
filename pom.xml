@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>image-service</name>
 	<description>Image processing microservice</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>17</java.version>
 		<docker.image.tag>latest</docker.image.tag>
@@ -20,7 +21,7 @@
 		<docker.build.directory>${project.build.directory}/dockerbuild</docker.build.directory>
 		<docker.file.name>Dockerfile</docker.file.name>
 		<docker.image.repository>dawidkaszuba</docker.image.repository>
-		<docker.push.registry>https://index.docker.io/v1</docker.push.registry>
+<!--		<start-class>pl.medrekkaszuba.imageservice.ImageServiceApplication</start-class>-->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -69,7 +70,7 @@
 						<id>repackage</id>
 						<configuration>
 							<outputDirectory>${docker.build.directory}</outputDirectory>
-							<classifier>exec</classifier>
+<!--							<mainClass>org.springframework.boot.loader.JarLauncher</mainClass>-->
 						</configuration>
 					</execution>
 				</executions>
@@ -84,35 +85,38 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>com.spotify</groupId>
+				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.2.0</version>
+				<version>0.38.1</version>
 				<executions>
 					<execution>
-						<id>build-image</id>
+						<id>build-docker-image</id>
 						<phase>package</phase>
 						<goals>
 							<goal>build</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>push-image</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>push</goal>
-						</goals>
-					</execution>
 				</executions>
 				<configuration>
-					<imageName>${docker.image.repository}/${project.artifactId}:${docker.image.tag}</imageName>
-					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>*.jar</include>
-						</resource>
-					</resources>
+					<images>
+						<image>
+							<name>${docker.image.repository}/${project.artifactId}:${docker.image.tag}</name>
+							<build>
+								<from>openjdk:17-jdk-slim</from>
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<ports>
+									<port>8081</port>
+								</ports>
+							</build>
+							<run>
+								<ports>
+									<port>8081:8081</port>
+								</ports>
+							</run>
+						</image>
+					</images>
 				</configuration>
 			</plugin>
 			<plugin>

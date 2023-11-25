@@ -14,8 +14,9 @@ Mikroserwis pobierający obrazki
 
 ## Tworzenie obrazu i wrzucenie do zewnętrznego registry
 
-- Zbuduj obraz: `mvn clean package docker:build`
-- Wrzuć na zewnetrzne registry: `mvn docker: push`
+[//]: # (- zainstaluj: `mvn clean install` ??)
+- Zbuduj obraz: `mvn package docker:build`
+- Wrzuć na zewnetrzne registry: `mvn docker:push`
 
 
 
