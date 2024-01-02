@@ -21,7 +21,6 @@
 		<docker.build.directory>${project.build.directory}/dockerbuild</docker.build.directory>
 		<docker.file.name>Dockerfile</docker.file.name>
 		<docker.image.repository>dawidkaszuba</docker.image.repository>
-<!--		<start-class>pl.medrekkaszuba.imageservice.ImageServiceApplication</start-class>-->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -65,15 +64,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>repackage</id>
-						<configuration>
-							<outputDirectory>${docker.build.directory}</outputDirectory>
-<!--							<mainClass>org.springframework.boot.loader.JarLauncher</mainClass>-->
-						</configuration>
-					</execution>
-				</executions>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -83,62 +73,6 @@
 					</excludes>
 					<imageName>image-service</imageName>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.38.1</version>
-				<executions>
-					<execution>
-						<id>build-docker-image</id>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<images>
-						<image>
-							<name>${docker.image.repository}/${project.artifactId}:${docker.image.tag}</name>
-							<build>
-								<from>openjdk:17-jdk-slim</from>
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-								<ports>
-									<port>8081</port>
-								</ports>
-							</build>
-							<run>
-								<ports>
-									<port>8081:8081</port>
-								</ports>
-							</run>
-						</image>
-					</images>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${docker.build.directory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${docker.image.src.root}</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
