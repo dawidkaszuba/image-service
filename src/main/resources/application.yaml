@@ -1,6 +1,3 @@
-server:
-    port: ${SERVER_PORT}
-
 spring:
     kafka:
         bootstrap-servers: ${BOOTSTRAP_SERVERS}

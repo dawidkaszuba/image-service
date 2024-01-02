@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>image-service</name>
 	<description>Image processing microservice</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>17</java.version>
 		<docker.image.tag>latest</docker.image.tag>
@@ -20,7 +21,6 @@
 		<docker.build.directory>${project.build.directory}/dockerbuild</docker.build.directory>
 		<docker.file.name>Dockerfile</docker.file.name>
 		<docker.image.repository>dawidkaszuba</docker.image.repository>
-		<docker.push.registry>https://index.docker.io/v1</docker.push.registry>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,15 +64,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>repackage</id>
-						<configuration>
-							<outputDirectory>${docker.build.directory}</outputDirectory>
-							<classifier>exec</classifier>
-						</configuration>
-					</execution>
-				</executions>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -82,59 +73,6 @@
 					</excludes>
 					<imageName>image-service</imageName>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.2.0</version>
-				<executions>
-					<execution>
-						<id>build-image</id>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>push-image</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<imageName>${docker.image.repository}/${project.artifactId}:${docker.image.tag}</imageName>
-					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>*.jar</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${docker.build.directory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${docker.image.src.root}</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
