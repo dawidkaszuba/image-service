@@ -31,11 +31,19 @@ public class ImageService {
 
         String key = createImageKey(image.getNewsItemId(), wrappedBufferedImage.getFormat());
         String url;
+        byte[] bytes = null;
         try {
-           url = s3Service.uploadImage(ImageUtils.
-                                        getBytesFromBufferedImage(wrappedBufferedImage.getImage(), wrappedBufferedImage.getFormat()),
-                                        key,
-                                        getContentType(wrappedBufferedImage));
+
+           if (wrappedBufferedImage.getImage() != null) {
+               bytes = ImageUtils.getBytesFromBufferedImage(wrappedBufferedImage.getImage(), wrappedBufferedImage.getFormat());
+           }
+
+           if (bytes != null) {
+               url = s3Service.uploadImage(bytes, key, getContentType(wrappedBufferedImage));
+           } else {
+               return;
+           }
+
         } catch (IOException e) {
             log.error("Error during uploading image to S3 bucket: {}", e.getMessage());
             throw new ProcessingImageException("Error during uploading image to S3 bucket", e);

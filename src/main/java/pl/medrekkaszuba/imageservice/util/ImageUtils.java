@@ -22,7 +22,7 @@ public class ImageUtils {
 
     public static WrappedBufferedImage downloadImage(String fileUrl) {
         BufferedImage image = null;
-        ImageFileFormat format = null;
+        ImageFileFormat format = ImageFileFormat.JPG;
         try {
             URL url = new URL(fileUrl);
             image = ImageIO.read(url);
