@@ -18,6 +18,14 @@ public class KafkaConfiguration {
         return prepareTopic(topicName, partitions, replicationFactor);
     }
 
+    @Bean
+    public NewTopic processedImagesTopic(@Value("${kafka.processedImagesTopic.name}") String topicName,
+                                         @Value("${kafka.processedImagesTopic.partitions}") int partitions,
+                                         @Value("${kafka.processedImagesTopic.replicationFactor}") int replicationFactor) {
+
+        return prepareTopic(topicName, partitions, replicationFactor);
+    }
+
     private NewTopic prepareTopic(String topicName, int partitions, int replicationFactor) {
         return new NewTopic(topicName, partitions, (short) replicationFactor);
     }
