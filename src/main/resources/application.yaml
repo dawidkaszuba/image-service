@@ -10,8 +10,8 @@ kafka:
         replicationFactor: ${IMAGES_TO_PROCESS_TOPIC_REPLICATION_FACTOR}
     processedImagesTopic:
         name: ${PROCESSED_IMAGES_TOPIC_NAME}
-        partitions: 2
-        replicationFactor: 1
+        partitions: ${PROCESSED_IMAGES_TOPIC_PARTITIONS}
+        replicationFactor: ${PROCESSED_IMAGES_TOPIC_REPLICATION_FACTOR}
 s3:
     region: ${S3_REGION}
     bucket: ${S3_BUCKET}
